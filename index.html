@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cats</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #cat-container img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1> RandomCats</h1>
+    <div id="cat-container">
+    </div>
+    <br>
+    <button id="new-cat-btn">Gerar nova imagem</button>
+    <script>
+        function fetchCatImage() {
+            fetch('https://api.thecatapi.com/v1/images/search')
+        .then(response => response.json())
+        .then(data => {
+            const img = document.createElement('img');
+            img.src = data[0].url;
+            img.alt = "Imagem aleatória de gatinho";
+            const catContainer = document.getElementById('cat-container');
+
+
+            catContainer.innerHTML = '';
+
+
+            catContainer.appendChild(img);
+    })
+
+        .catch(error => {
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = "Não foi possível obter a imagem de gatinho.";
+            const catContainer = document.getElementById('cat-container');
+            catContainer.innerHTML = '';
+            catContainer.appendChild(errorMessage);
+    });
+    }
+        window.onload = fetchCatImage;
+
+
+        const newCatBtn = document.getElementById('new-cat-btn');
+        newCatBtn.addEventListener('click', fetchCatImage);
+    </script>
+        </body>
+    </html>
